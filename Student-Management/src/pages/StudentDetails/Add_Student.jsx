@@ -271,10 +271,14 @@ function Add_Student() {
                         required: true,
                         message: "Please input advance fees!",
                       },
-                      {
-                        pattern: /^[0-9]{5}$/,
-                        message: "Only digits from 1 to 6 are allowed",
-                      },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (!value || value.toString().length < 6) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject(new Error('Advance fees must be less than 6 digits!'));
+                        },
+                      }),
                     ]}
                   >
                     <Input
